@@ -89,15 +89,15 @@ The agent will interactively guide you through module selection, filtering, and 
 
 ```
 .mcp/
-├── ui/
-│   ├── scenario_templates/          # Generated scenario files
-│   │   └── <feature>/
-│   │       └── <name>_flow.md
-│   └── forge_logs/                  # Extraction logs + CSV exports
-│       └── extraction_<module>_<timestamp>.csv
-└── manual_candidates/
-    └── report.md                    # Cases not suitable for automation
+└── ui/
+    ├── scenario_templates/          # Generated scenario files
+    │   └── <feature>/
+    │       └── <name>_flow.md
+    └── forge_logs/                  # Extraction logs + CSV exports
+        └── extraction_<module>_<timestamp>.csv
 ```
+
+> **SKIP cases** are recorded in the CSV export (with `priority=SKIP`) and displayed during the analysis summary in Step 3. No separate report file is generated — the CSV serves as the single source of truth for all classification decisions.
 
 ---
 
@@ -105,7 +105,7 @@ The agent will interactively guide you through module selection, filtering, and 
 
 1. **Fetch** — Pulls test cases from qTest via MCP tools
 2. **Filter** — LLM evaluates each case for automation suitability (HIGH / MEDIUM / LOW / SKIP)
-3. **Export** — Saves classification to CSV, presents analysis for user approval
+3. **Export** — Saves classification to CSV (including SKIP cases with reasons), presents analysis for user approval
 4. **Generate** — Creates formatted `.md` scenario templates from approved cases
 
 See [FORGE_GUIDE.md](FORGE_GUIDE.md) for the full technical reference.
