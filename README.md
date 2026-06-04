@@ -104,7 +104,7 @@ The agent will interactively guide you through module selection, filtering, and 
 ## How It Works
 
 1. **Fetch** — Pulls test cases from qTest via MCP tools
-2. **Filter** — LLM evaluates each case for automation suitability (HIGH / MEDIUM / LOW / SKIP)
+2. **Filter** — LLM evaluates each test case for automation suitability (HIGH / MEDIUM / LOW / SKIP)
 3. **Export** — Saves classification to CSV (including SKIP cases with reasons), presents analysis for user approval
 4. **Generate** — Creates formatted `.md` scenario templates from approved cases
 
