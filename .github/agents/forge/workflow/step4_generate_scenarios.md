@@ -18,18 +18,18 @@ The agent already has the full module hierarchy from Step 1 (each module has `na
 4. Join segments with `/` to form `local_path`.
 5. `feature_name` = the original name of the selected module (un-normalized).
 
-### Read Master Template (MANDATORY)
+### Read Test Scenario Template (MANDATORY)
 
-Load the **master template** from `.mcp/ui/scenario_templates/test_scenario_template.md`. Copy its EXACT format for all scenario generation.
+Load the **test scenario template** from `.mcp/ui/scenario_templates/test_scenario_template.md`. Copy its EXACT format for all scenario generation.
 
-> The master template defines the canonical structure: title, objective, preconditions, steps, and post-execution.
+> The test scenario template defines the canonical structure: title, objective, preconditions, steps, and post-execution.
 
 ### Read Feature-Specific Examples
 
 Search in: `.mcp/ui/scenario_templates/<local_path>/` (using `local_path` derived above).
 
 - If `.md` files exist in that directory: read 1–2 to extract feature-specific UI element patterns and phrasing.
-- If no examples exist: rely on the master template and qTest module description.
+- If no examples exist: rely on the test scenario template and qTest module description.
 
 ---
 
@@ -96,7 +96,7 @@ Write scenarios in this order:
 
 Apply formatting rules from: `forge/reference/formatting_patterns.md`
 
-That file is the **single source of truth** for titles, objectives, preconditions, step formatting, UI element patterns, and post-execution blocks. If it does not exist or fails to load, fall back to the master template.
+That file is the **single source of truth** for titles, objectives, preconditions, step formatting, UI element patterns, and post-execution blocks. If it does not exist or fails to load, fall back to the test scenario template.
 
 ### Priority Handling
 

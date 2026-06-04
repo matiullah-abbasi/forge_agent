@@ -35,16 +35,16 @@ A GitHub Copilot custom agent that extracts manual test cases from qTest, filter
    │   │   └── project_context.md      ← Fill in product details
    │   └── ui/
    │       └── scenario_templates/
-   │           └── test_scenario_template.md  ← Master template
+   │           └── test_scenario_template.md  ← Test scenario template
    ```
 
    > **Note:** This repo contains the source files. Copy `forge.agent.md` and the `forge/` directory into `.github/agents/` in your target project. The `FORGE_GUIDE.md` and `README.md` are documentation only — they don't need to be copied.
 
 2. **Configure `project.json`:** Copy `.mcp/automation/project.example.json` to `.mcp/automation/project.json` and fill in your qTest details (project ID, project name, base URL).
 
-3. **Master template** (included — ready to use):
+3. **Test scenario template** (included — ready to use):
 
-   A generic master template is already provided at `.mcp/ui/scenario_templates/test_scenario_template.md`. The agent uses this to produce consistently formatted scenario files. Customize it to match your project's conventions if needed.
+   A generic test scenario template is already provided at `.mcp/ui/scenario_templates/test_scenario_template.md`. The agent uses this to produce consistently formatted scenario files. Customize it to match your project's conventions if needed.
 
 4. **Create `project_context.md`** (optional but recommended):
 
@@ -78,7 +78,7 @@ The agent will interactively guide you through module selection, filtering, and 
 .mcp/
 └── ui/
     ├── scenario_templates/          # Generated scenario files
-    │   ├── test_scenario_template.md # Master template (included)
+    │   ├── test_scenario_template.md # Test scenario template (included)
     │   └── <feature>/
     │       └── <name>_flow.md
     └── forge_logs/                  # Extraction logs + CSV exports

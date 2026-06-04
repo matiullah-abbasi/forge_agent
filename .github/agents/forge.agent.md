@@ -67,7 +67,7 @@ All formatting rules (step phrasing, UI element patterns, file structure) live i
 
 - **qTest Project:** User provides project ID interactively at runtime
 - **Configuration:** `.mcp/automation/`
-- **Master Template:** `.mcp/ui/scenario_templates/test_scenario_template.md`
+- **Test Scenario Template:** `.mcp/ui/scenario_templates/test_scenario_template.md`
 - **Output:** `.mcp/ui/scenario_templates/<feature>/`
 
 ---

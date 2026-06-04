@@ -166,7 +166,7 @@ Single source of truth for the qTest project ID and base URL. Users can override
 
 > A `project.example.json` template is included at `.mcp/automation/`. Copy and rename it to `project.json`.
 
-**Master Template:** Located at `.mcp/ui/scenario_templates/test_scenario_template.md`. Defines the canonical output format for generated scenarios.
+**Test Scenario Template:** Located at `.mcp/ui/scenario_templates/test_scenario_template.md`. Defines the canonical output format for generated scenarios.
 
 ---
 
