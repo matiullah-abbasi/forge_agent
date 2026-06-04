@@ -20,9 +20,9 @@ The agent already has the full module hierarchy from Step 1 (each module has `na
 
 ### Read Master Template (MANDATORY)
 
-Load the **master template** from the path configured in `project.json` under `"master_template"`. Copy its EXACT format for all scenario generation.
+Load the **master template** from `.mcp/ui/scenario_templates/test_scenario_template.md`. Copy its EXACT format for all scenario generation.
 
-> **Setup:** Create a master template file (e.g., `.mcp/ui/scenario_templates/test_scenario_template.md`) that defines the canonical structure: title, objective, preconditions, steps, and post-execution. Set its path in `project.json` so the agent knows where to find it.
+> The master template defines the canonical structure: title, objective, preconditions, steps, and post-execution.
 
 ### Read Feature-Specific Examples
 
