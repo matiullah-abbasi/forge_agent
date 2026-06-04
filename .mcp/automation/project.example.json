@@ -1,0 +1,5 @@
+{
+  "project_id": "Your qTest project ID here",
+  "project_name": "Your qTest project name here",
+  "qtest_base_url": "https://<your-qtest-instance>.qtestnet.com"
+}

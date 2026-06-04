@@ -142,7 +142,7 @@ Converts filtered test cases into standardized `.md` scenario templates.
 
 Enhances generated scenarios with project-specific knowledge from:
 
-1. `.mcp/project_context.md` — Product features, terminology, user roles
+1. `.mcp/automation/project_context.md` — Product features, terminology, user roles
 2. `.mcp/ui/scenario_templates/**/*.md` — Patterns from existing scenarios
 3. qTest custom fields — Tags, priority, linked requirements
 
@@ -150,7 +150,7 @@ Enhances generated scenarios with project-specific knowledge from:
 
 ## Configuration Files
 
-All configuration lives in `.mcp/ui/automation_config/`:
+All configuration lives in `.mcp/automation/`:
 
 ### `project.json`
 
@@ -159,9 +159,14 @@ Single source of truth for the qTest project ID and base URL. Users can override
 ```json
 {
   "project_id": "<YOUR_PROJECT_ID>",
+  "project_name": "<YOUR_PROJECT_NAME>",
   "qtest_base_url": "https://<your-instance>.qtestnet.com"
 }
 ```
+
+- `master_template` — Path to your master template file (e.g., `.mcp/ui/scenario_templates/test_scenario_template.md`)
+
+> A `project.example.json` template is included at `.mcp/automation/`. Copy and rename it to `project.json`.
 
 ---
 
@@ -169,19 +174,19 @@ Single source of truth for the qTest project ID and base URL. Users can override
 
 ```
 .mcp/
+├── automation/                      # Configuration files
+│   ├── project.json                    # Project ID — single source of truth
+│   └── project_context.md              # Product domain knowledge for step enrichment
 ├── ui/
-│   ├── automation_config/           # Configuration files
-│   │   └── project.json                # Project ID — single source of truth
 │   ├── scenario_templates/          # ✅ HIGH + MEDIUM (+ LOW if selected) priority outputs
 │   │   ├── <feature_a>/
 │   │   ├── <feature_b>/
 │   │   ├── <feature_c>/
 │   │   └── ...
-│   ├── FORGE_GUIDE.md
 │   ├── forge_logs/                  # Extraction logs + CSV exports (includes SKIP cases)
 │   │   └── extraction_<module>_<timestamp>.csv
 │   └── ui_test_generator.md
-└── project_context.md              # Product domain knowledge for step enrichment
+└── ...
 ```
 
 ---

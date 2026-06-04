@@ -19,7 +19,7 @@ Example: `extraction_login_module_2026-05-14_103045.csv`
 | priority     | Automation priority (HIGH / MEDIUM / LOW / SKIP) | Step 2 evaluation result             |
 | link         | Direct URL to test case in qTest                 | Constructed from project.json values |
 
-**Link construction:** Read `qtest_base_url` and `project_id` from `.mcp/ui/automation_config/project.json` (single source of truth for URL format). Build the URL dynamically — do not hardcode the base URL or project ID here.
+**Link construction:** Read `qtest_base_url` and `project_id` from `.mcp/automation/project.json` (single source of truth for URL format). Build the URL dynamically — do not hardcode the base URL or project ID here.
 
 ### Steps
 

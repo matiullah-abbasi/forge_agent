@@ -39,8 +39,8 @@ All formatting rules (step phrasing, UI element patterns, file structure) live i
 
 **Immediately load these files using `read_file` tool (do NOT ask user):**
 
-1. `.mcp/ui/automation_config/project.json` — **Required.** Stop if missing.
-2. `.mcp/project_context.md` — **Optional.** If missing, continue without domain context (scenarios will be less enriched).
+1. `.mcp/automation/project.json` — **Required.** Stop if missing.
+2. `.mcp/automation/project_context.md` — **Optional.** If missing, continue without domain context (scenarios will be less enriched).
 
 **Process:**
 
@@ -50,7 +50,7 @@ All formatting rules (step phrasing, UI element patterns, file structure) live i
    - project_config: default project ID (user can override at runtime)
    - project_context: product domain knowledge for step enrichment (if available)
 3. If project.json is missing:
-   - Report error: "Configuration file not found: .mcp/ui/automation_config/project.json"
+   - Report error: "Configuration file not found: .mcp/automation/project.json"
    - Stop execution - do not proceed
 4. If project_context.md is missing:
    - Log warning internally, continue without enrichment context
@@ -66,7 +66,7 @@ All formatting rules (step phrasing, UI element patterns, file structure) live i
 ## Context
 
 - **qTest Project:** User provides project ID interactively at runtime
-- **Configuration:** `.mcp/ui/automation_config/`
+- **Configuration:** `.mcp/automation/`
 - **Master Template:** Path configured in `project.json` under `"master_template"` (e.g., `.mcp/ui/scenario_templates/test_scenario_template.md`)
 - **Output:** `.mcp/ui/scenario_templates/<feature>/`
 

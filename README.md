@@ -29,6 +29,10 @@ A GitHub Copilot custom agent that extracts manual test cases from qTest, filter
    │               ├── step2_fetch_and_filter_test_cases.md
    │               ├── step3_export_and_approval.md
    │               └── step4_generate_scenarios.md
+   ├── .mcp/
+   │   └── automation/
+   │       ├── project.example.json    ← Copy to project.json
+   │       └── project_context.md      ← Fill in product details
    ```
 
    > **Note:** This repo contains the source files. Copy `forge.agent.md` and the `forge/` directory into `.github/agents/` in your target project. The `FORGE_GUIDE.md` and `README.md` are documentation only — they don't need to be copied.
@@ -37,31 +41,31 @@ A GitHub Copilot custom agent that extracts manual test cases from qTest, filter
 
    ```
    .mcp/
-   └── ui/
-       └── automation_config/
-           └── project.json
+   └── automation/
+       ├── project.json
+       └── project_context.md    (optional but recommended)
    ```
+
+   > A `project.example.json` template is included in `.mcp/automation/`. Copy and rename it to `project.json`.
 
 3. **Configure `project.json`:**
 
    ```json
    {
      "project_id": "<YOUR_QTEST_PROJECT_ID>",
-     "qtest_base_url": "https://<your-instance>.qtestnet.com",
-     "master_template": ".mcp/ui/scenario_templates/test_scenario_template.md"
+     "project_name": "<YOUR_QTEST_PROJECT_NAME>",
+     "qtest_base_url": "https://<your-instance>.qtestnet.com"
    }
    ```
 
    - `project_id` — Your qTest project ID (visible in the qTest URL)
+   - `project_name` — Your qTest project name
    - `qtest_base_url` — Your qTest instance URL
-   - `master_template` — Path to your scenario template file (defines the output format for generated scenarios)
+   - `master_template` — Path to your master template file (e.g., `.mcp/ui/scenario_templates/test_scenario_template.md`). Defines the output format for generated scenarios.
 
 4. **Create `project_context.md`** (optional but recommended):
 
-   ```
-   .mcp/
-   └── project_context.md
-   ```
+   A template is provided at `.mcp/automation/project_context.md` — fill in your product details.
 
    Add product-specific context: feature names, user roles, terminology, UI conventions. This helps the agent generate more accurate scenario steps.
 
