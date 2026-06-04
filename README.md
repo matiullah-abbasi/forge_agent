@@ -30,9 +30,12 @@ A GitHub Copilot custom agent that extracts manual test cases from qTest, filter
    │               ├── step3_export_and_approval.md
    │               └── step4_generate_scenarios.md
    ├── .mcp/
-   │   └── automation/
-   │       ├── project.example.json    ← Copy to project.json
-   │       └── project_context.md      ← Fill in product details
+   │   ├── automation/
+   │   │   ├── project.example.json    ← Copy to project.json
+   │   │   └── project_context.md      ← Fill in product details
+   │   └── ui/
+   │       └── scenario_templates/
+   │           └── test_scenario_template.md  ← Master template
    ```
 
    > **Note:** This repo contains the source files. Copy `forge.agent.md` and the `forge/` directory into `.github/agents/` in your target project. The `FORGE_GUIDE.md` and `README.md` are documentation only — they don't need to be copied.
@@ -61,9 +64,12 @@ A GitHub Copilot custom agent that extracts manual test cases from qTest, filter
    - `project_id` — Your qTest project ID (visible in the qTest URL)
    - `project_name` — Your qTest project name
    - `qtest_base_url` — Your qTest instance URL
-   - `master_template` — Path to your master template file (e.g., `.mcp/ui/scenario_templates/test_scenario_template.md`). Defines the output format for generated scenarios.
 
-4. **Create `project_context.md`** (optional but recommended):
+4. **Master template** (included — ready to use):
+
+   A generic master template is already provided at `.mcp/ui/scenario_templates/test_scenario_template.md`. The agent uses this to produce consistently formatted scenario files. Customize it to match your project's conventions if needed.
+
+5. **Create `project_context.md`** (optional but recommended):
 
    A template is provided at `.mcp/automation/project_context.md` — fill in your product details.
 
@@ -95,6 +101,7 @@ The agent will interactively guide you through module selection, filtering, and 
 .mcp/
 └── ui/
     ├── scenario_templates/          # Generated scenario files
+    │   ├── test_scenario_template.md # Master template (included)
     │   └── <feature>/
     │       └── <name>_flow.md
     └── forge_logs/                  # Extraction logs + CSV exports
