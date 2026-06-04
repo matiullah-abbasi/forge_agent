@@ -40,36 +40,13 @@ A GitHub Copilot custom agent that extracts manual test cases from qTest, filter
 
    > **Note:** This repo contains the source files. Copy `forge.agent.md` and the `forge/` directory into `.github/agents/` in your target project. The `FORGE_GUIDE.md` and `README.md` are documentation only — they don't need to be copied.
 
-2. **Create the configuration directory** in your workspace root:
+2. **Configure `project.json`:** Copy `.mcp/automation/project.example.json` to `.mcp/automation/project.json` and fill in your qTest details (project ID, project name, base URL).
 
-   ```
-   .mcp/
-   └── automation/
-       ├── project.json
-       └── project_context.md    (optional but recommended)
-   ```
-
-   > A `project.example.json` template is included in `.mcp/automation/`. Copy and rename it to `project.json`.
-
-3. **Configure `project.json`:**
-
-   ```json
-   {
-     "project_id": "<YOUR_QTEST_PROJECT_ID>",
-     "project_name": "<YOUR_QTEST_PROJECT_NAME>",
-     "qtest_base_url": "https://<your-instance>.qtestnet.com"
-   }
-   ```
-
-   - `project_id` — Your qTest project ID (visible in the qTest URL)
-   - `project_name` — Your qTest project name
-   - `qtest_base_url` — Your qTest instance URL
-
-4. **Master template** (included — ready to use):
+3. **Master template** (included — ready to use):
 
    A generic master template is already provided at `.mcp/ui/scenario_templates/test_scenario_template.md`. The agent uses this to produce consistently formatted scenario files. Customize it to match your project's conventions if needed.
 
-5. **Create `project_context.md`** (optional but recommended):
+4. **Create `project_context.md`** (optional but recommended):
 
    A template is provided at `.mcp/automation/project_context.md` — fill in your product details.
 
