@@ -8,7 +8,6 @@ Ask the user (single prompt, two questions):
 2. **Module Discovery** — Options:
    - `Display All Modules` (recommended)
    - `Enter Specific Module ID`
-   - `Enter Module Path`
 
 ---
 
@@ -28,12 +27,6 @@ Ask the user (single prompt, two questions):
 1. Prompt for module ID.
 2. Verify it exists via `search-modules`.
 
-### Option C: Enter Module Path
-
-1. Prompt for path (e.g., `"/<module Path>"`).
-2. Search via `search-modules` with module name.
-3. If multiple matches — display all, prompt user to pick.
-
 ---
 
 ## 1.3 Sub-module Handling
@@ -50,7 +43,7 @@ Use the module hierarchy already loaded from 1.2 — no additional API calls.
 
 Once the final module is confirmed (no more sub-module selection needed), check if a previous extraction exists:
 
-1. Search for files matching: `.mcp/ui/forge_logs/extraction_<module_name>_*.csv`
+1. Search for files matching: `.mcp/qtest_extracted_test_cases/<module_name>_*.csv`
 2. If a matching CSV is found:
    - Inform user: "Found previous extraction: `[filename]` ([date])."
    - Ask: "Resume from this CSV (skip fetch + filter) or start fresh?"
@@ -59,7 +52,7 @@ Once the final module is confirmed (no more sub-module selection needed), check 
    - If "Start fresh": Continue to Step 1.5 below.
 3. If no CSV found: Continue to Step 1.5 below.
 
-**Note:** When resuming from CSV, the `priority` column is used directly. LLM reasoning from the original run is not available — present priorities without gap details.
+**Note:** When resuming from CSV, LLM reasoning from the original run is not available — present test cases without gap details.
 
 ---
 
@@ -71,6 +64,7 @@ Once the final module is confirmed (no more sub-module selection needed), check 
 ### Separate Already-Automated Cases
 
 Before enrichment, filter out cases where Type = "Automated" (default `field_value = "702"` — may vary by qTest instance):
+
 - Store separately for context enrichment in Step 4
 - Report: "Found X already-automated test cases (used for context)"
 
@@ -78,8 +72,13 @@ Before enrichment, filter out cases where Type = "Automated" (default `field_val
 
 Call `get-testcase` for **each remaining manual candidate** to retrieve full steps, preconditions, custom fields, and linked requirements. Store enriched data in memory — Step 2 uses this directly, do NOT re-fetch.
 
+### Sort by qTest Order (MANDATORY)
+
+**After enrichment, sort all manual candidates by their qTest `order` field (ascending).** This is the single, authoritative sort for the entire workflow — Steps 2, 3, and 4 all inherit this order. Do NOT re-sort downstream; the sequence established here is carried through evaluation, CSV export, approval presentation, and scenario generation.
+
 ### Early-Exit Check
 
 If ALL test cases are Automated:
+
 - Report: "All X test cases in [module] are already automated."
 - STOP. Ask user to select a different module or exit.

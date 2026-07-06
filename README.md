@@ -1,115 +1,69 @@
-# Forge Agent — qTest to Playwright Automation Bridge
+# UI Automation Scenarios Generator
 
-A GitHub Copilot custom agent that extracts manual test cases from qTest, filters them for automation suitability using LLM analysis, and generates standardized Markdown scenario templates ready for Playwright test generation.
-
----
-
-## Prerequisites
-
-- **VS Code** with GitHub Copilot (agent mode enabled)
-- **qTest MCP Server** configured and running — provides API access to your qTest instance
-- **qTest account** with access to the target project's test cases
+Extracts manual test cases from qTest, filters for automation suitability, and generates standardized Playwright scenario templates.
 
 ---
 
-## Installation
+## What It Does
 
-1. **Copy agent files** into your workspace under `.github/agents/`:
-
-   ```
-   your-project/
-   ├── .github/
-   │   └── agents/
-   │       ├── forge.agent.md          ← Agent definition
-   │       └── forge/                  ← Workflow & reference files
-   │           ├── reference/
-   │           │   └── formatting_patterns.md
-   │           └── workflow/
-   │               ├── step1_interactive_setup.md
-   │               ├── step2_fetch_and_filter_test_cases.md
-   │               ├── step3_export_and_approval.md
-   │               └── step4_generate_scenarios.md
-   ├── .mcp/
-   │   ├── automation/
-   │   │   ├── project.example.json    ← Copy to project.json
-   │   │   └── project_context.md      ← Fill in product details
-   │   └── ui/
-   │       └── scenario_templates/
-   │           └── test_scenario_template.md  ← Test scenario template
-   ```
-
-   > **Note:** This repo contains the source files. Copy `forge.agent.md` and the `forge/` directory into `.github/agents/` in your target project. The `FORGE_GUIDE.md` and `README.md` are documentation only — they don't need to be copied.
-
-2. **Configure `project.json`:** Copy `.mcp/automation/project.example.json` to `.mcp/automation/project.json` and fill in your qTest details (project ID, project name, base URL).
-
-3. **Test scenario template** (included — ready to use):
-
-   A generic test scenario template is already provided at `.mcp/ui/scenario_templates/test_scenario_template.md`. The agent uses this to produce consistently formatted scenario files. Customize it to match your project's conventions if needed.
-
-4. **Create `project_context.md`** (optional but recommended):
-
-   A template is provided at `.mcp/automation/project_context.md` — fill in your product details.
-
-   Add product-specific context: feature names, user roles, terminology, UI conventions. This helps the agent generate more accurate scenario steps.
+- **Silently loads config** on startup (default project ID + product context) — no setup needed from you
+- **Fetches test cases from qTest** for the module you choose, paginated to avoid overflows
+- **Evaluates each test case** using LLM reasoning — only automation-suitable cases are kept
+- **Exports a CSV** of the filtered list and waits for your approval before writing any files
+- **Generates scenario `.md` files** in `feature_flows/`, ready for the UI Test Generator agent
+- **Read-only against qTest** — never modifies test cases, idempotent on re-runs
 
 ---
 
-## Usage
-
-In VS Code Copilot Chat (agent mode):
+## Architecture
 
 ```
-@forge Extract test cases from qTest module "/<Module Path>"
+┌──────────────────────────────────────────────────────────────┐
+│                        VS Code IDE                           │
+│                                                              │
+│  ┌────────────────────────────────────────────────────────┐  │
+│  │          UI Automation Scenarios Generator             │  │
+│  │                                                        │  │
+│  │  ┌──────────────────────┐   ┌───────────────────────┐  │  │
+│  │  │  4-Step Workflow      │   │  LLM Filtering Engine │  │  │
+│  │  │                      │   │                       │  │  │
+│  │  │  1. Interactive setup│   │  • Automation         │  │  │
+│  │  │  2. Fetch & filter   │   │    suitability check  │  │  │
+│  │  │  3. CSV export +     │   │  • Deduplication      │  │  │
+│  │  │     user approval    │   │  • Formatting rules   │  │  │
+│  │  │  4. Generate .md     │   │                       │  │  │
+│  │  └──────────────────────┘   └───────────────────────┘  │  │
+│  └────────────────────────────────────────────────────────┘  │
+│                              │                               │
+└──────────────────────────────│───────────────────────────────┘
+                               │
+                  ┌────────────▼────────────┐
+                  │    qTest MCP Server      │──────► qTest API
+                  └─────────────────────────┘
 ```
-
-Or by module ID:
-
-```
-@forge Extract test cases from qTest module <MODULE_ID>
-```
-
-The agent will interactively guide you through module selection, filtering, and scenario generation.
 
 ---
 
-## Output Structure
+## How to Run
 
-```
-.mcp/
-└── ui/
-    ├── scenario_templates/          # Generated scenario files
-    │   ├── test_scenario_template.md # Test scenario template (included)
-    │   └── <feature>/
-    │       └── <name>_flow.md
-    └── forge_logs/                  # Extraction logs + CSV exports
-        └── extraction_<module>_<timestamp>.csv
-```
+1. Open **GitHub Copilot Chat** in VS Code (`Ctrl+Shift+I`)
+2. Select **UI Automation Scenarios Generator** from the agents dropdown
+3. No arguments needed — the agent starts immediately and guides you
 
-> **SKIP cases** are recorded in the CSV export (with `priority=SKIP`) and displayed during the analysis summary in Step 3. No separate report file is generated — the CSV serves as the single source of truth for all classification decisions.
+The agent will interactively ask for:
 
----
+| Prompt         | Details                                                                       |
+| -------------- | ----------------------------------------------------------------------------- |
+| **Project ID** | qTest project to extract from — a default is pre-configured, you can override |
+| **Module**     | qTest module path to target (agent lists options if ambiguous)                |
+| **Approval**   | Review the filtered CSV before any `.md` files are written                    |
 
-## How It Works
-
-1. **Fetch** — Pulls test cases from qTest via MCP tools
-2. **Filter** — LLM evaluates each test case for automation suitability (HIGH / MEDIUM / LOW / SKIP)
-3. **Export** — Saves classification to CSV (including SKIP cases with reasons), presents analysis for user approval
-4. **Generate** — Creates formatted `.md` scenario templates from approved cases
-
-See [FORGE_GUIDE.md](FORGE_GUIDE.md) for the full technical reference.
+> No terminal commands needed. All interaction happens inside the chat.
 
 ---
 
-## Customization
+## Output
 
-| What to change | Where |
-|---|---|
-| Workflow logic | `forge/workflow/step<N>_*.md` |
-| Formatting rules | `forge/reference/formatting_patterns.md` |
-| Agent behavior | `forge.agent.md` |
-
----
-
-## License
-
-MIT — see [LICENSE](LICENSE)
+| File                                    | Location                                                |
+| --------------------------------------- | ------------------------------------------------------- |
+| `<feature>_flow.md` (scenario template) | `.github/agents/ui_automation/feature_flows/<feature>/` |
